@@ -1,0 +1,86 @@
+﻿<Window x:Class="AttendanceManagement.AttendanceManagementWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converter="clr-namespace:AttendanceManagement.Converter"
+    Title="出欠管理君" Height="400" Width="480"
+    Icon="ICON\Application.ico">
+    <Window.Resources>
+        <Converter:LocationConverter x:Key="locationConverter" />
+        <Converter:NumberOfPeopleConverter x:Key="numberOfPeopleConverter" />
+        <Converter:DateFormatConverter x:Key="dateFormatConverter" />
+        <ContextMenu x:Key="lsvScheduleContextMenu">
+            <MenuItem Header="クリップボードに戦果をコピー(_C)" Click="CopyToClipboard_Click"></MenuItem>
+            <MenuItem Header="変更(_M)" Click="ScheduleModify_Click"></MenuItem>
+            <MenuItem Header="削除(_D)" Click="ScheduleDelete_Click"></MenuItem>
+        </ContextMenu>
+        <ContextMenu x:Key="lsvMemberContextMenu">
+            <MenuItem Header="出欠のON/OFF(_A)" Click="WorkingOnOff_Click"></MenuItem>
+            <MenuItem Header="取得部位の編集(_E)" Click="GotEquipEdit_Click"></MenuItem>
+            <MenuItem Header="100貨幣取得のON/OFF(_M)" Click="GotMoneyOnOff_Click"></MenuItem>
+            <MenuItem Header="詳細情報(_P)" Click="MemberInfo_Click"></MenuItem>
+        </ContextMenu>
+    </Window.Resources>
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.ColumnSpan="2" Grid.Row="0" Name="menu" Height="36">
+            <MenuItem Header="ファイル(_F)">
+                <MenuItem Header="再読込(_R)" Click="Reload_Click"></MenuItem>
+                <MenuItem Header="保存(_S)" Click="Save_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="スケジュール(_S)">
+                <MenuItem Header="登録(_E)" Click="ScheduleEntry_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="オプション(_O)">
+                <MenuItem Name="menuJpEn" Header="日本語⇔英語(_E)" Click="JpEn_Click"></MenuItem>
+                <MenuItem Name="menuDispRetireMember" Header="退会者の表示(_R)" Click="DispRetireMember_Click" IsCheckable="True"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="ヘルプ(_H)">
+                <MenuItem Header="バージョン情報(_V)" Click="VersionInfo_Click"></MenuItem>
+            </MenuItem>
+        </Menu>
+        <ListView Grid.Column="0" Grid.Row="1" Margin="5" Name="lsvSchedule" SelectionChanged="lsvSchedule_SelectionChanged" SelectionMode="Single" ContextMenu="{StaticResource lsvScheduleContextMenu}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="日付" DisplayMemberBinding="{Binding Path=Date, Converter={StaticResource dateFormatConverter}}" />
+                    <GridViewColumn Header="場所" DisplayMemberBinding="{Binding Path=LocationID, Converter={StaticResource locationConverter}}"/>
+                    <GridViewColumn Header="人数" DisplayMemberBinding="{Binding Path=WorkingNo, Converter={StaticResource numberOfPeopleConverter}}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <GridSplitter ResizeDirection="Columns" Width="5" Grid.Row="1" />
+        <ListView Grid.Column="1" Grid.Row="1" Name="lsvMember" ContextMenuOpening="lsvMember_ContextMenuOpening" ContextMenu="{StaticResource lsvMemberContextMenu}" SelectionMode="Extended" Margin="0,5,5,5">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="名前" DisplayMemberBinding="{Binding Path=Name}"/>
+                    <GridViewColumn Header="出欠" DisplayMemberBinding="{Binding Path=Work}"/>
+                    <GridViewColumn Header="AF" DisplayMemberBinding="{Binding Path=IsGotEquip}"/>
+                    <GridViewColumn Header="100" DisplayMemberBinding="{Binding Path=IsGotMoney}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.ColumnSpan="2" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StatusBar Grid.Row="0">
+                <TextBlock Name="stbHeader" Foreground="Black" />
+            </StatusBar>
+            <StatusBar Grid.Row="1">
+                <TextBlock Name="stbContent" Foreground="Black" />
+            </StatusBar>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,1 +1,2 @@
 # AttendanceManagement
+WPFの学習がてら作ったFFXI裏LSの出欠管理ツール

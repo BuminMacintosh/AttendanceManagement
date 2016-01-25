@@ -1,0 +1,55 @@
+﻿<Window x:Class="AttendanceManagement.Dialog.MemberInfoReferenceDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="メンバ情報詳細"
+    Height="300" MinHeight="300" MaxHeight="300"
+    Width="456" MinWidth="456" MaxWidth="456"
+    Icon="..\ICON\Application.ico">
+    <Window.Resources>
+        <DataTemplate x:Key="JNameTemplate">
+            <TextBlock Text="{Binding Path=JName}" />
+        </DataTemplate>
+        <DataTemplate x:Key="ENameTemplate">
+            <TextBlock Text="{Binding Path=EName}" />
+        </DataTemplate>
+    </Window.Resources>
+    <Grid Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"></RowDefinition>
+            <RowDefinition Height="36"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="130"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Margin="5" Name="lblName" Content="名前："/>
+        <Label Margin="5" Name="lblAttendance" Grid.Row="1" Content="出席数："/>
+        <Label Margin="5" Name="lblNickName" Grid.Column="2" Content="ニックネーム："/>
+        <Label Margin="5" Name="lblAttendanceRate" Grid.Row="1" Grid.Column="2" Content="出席率：" />
+        <TextBox Grid.Column="1" Margin="5" Name="txtName" IsReadOnly="True"/>
+        <TextBox Margin="5" Name="txtAttendance" Grid.Column="1" Grid.Row="1" IsReadOnly="True"/>
+        <TextBox Margin="5" Name="txtNickName" Grid.Column="3" IsReadOnly="True" />
+        <TextBox Margin="5" Name="txtAttendanceRate" Grid.Column="3" Grid.Row="1" IsReadOnly="True"/>
+        <GroupBox Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2" Header="取得部位一覧" Margin="5,0,5,5" Name="grpBox" Height="180" >
+            <ListView Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="3" Margin="5" Name="lsvSummary">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ジョブ" Width="45" CellTemplate="{StaticResource ENameTemplate}" />
+                        <GridViewColumn Header="頭" Width="35" DisplayMemberBinding="{Binding Path=Head}"/>
+                        <GridViewColumn Header="胴" Width="35" DisplayMemberBinding="{Binding Path=Body}"/>
+                        <GridViewColumn Header="手" Width="35" DisplayMemberBinding="{Binding Path=Hands}"/>
+                        <GridViewColumn Header="脚" Width="35" DisplayMemberBinding="{Binding Path=Legs}"/>
+                        <GridViewColumn Header="足" Width="35" DisplayMemberBinding="{Binding Path=Feet}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <Button Margin="5" Name="btnEdit" Grid.Column="3" Height="26.5" Grid.Row="2" VerticalAlignment="Bottom" Click="btnEdit_Click">編集する</Button>
+        <Button Grid.Column="3" Grid.Row="3" Margin="5" Name="btnOK" Click="btnOK_Click" Height="26.5" VerticalAlignment="Top">OK</Button>
+        <CheckBox Grid.Column="3" Grid.Row="2" Height="22" Margin="17,10,17,0" Name="chkRetireFlg" VerticalAlignment="Top" IsEnabled="False">退会済</CheckBox>
+    </Grid>
+</Window>
